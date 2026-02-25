@@ -1,0 +1,11 @@
+import './App.css'
+import { HomePage } from './assets/pages/HomePage'
+
+function App() {
+
+  return (
+    <HomePage></HomePage>
+  )
+}
+
+export default App
