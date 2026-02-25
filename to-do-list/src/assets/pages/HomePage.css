@@ -46,7 +46,7 @@ button {
 
 
 .background {
-    background-image: url('../../images/background.jpg');
+    background-image: url('/background.jpg');
     background-size: cover;
     position: fixed;
     background-position: center;

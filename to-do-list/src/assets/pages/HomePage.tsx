@@ -23,9 +23,14 @@ export function HomePage() {
           <div className="tableElement">Edit</div>
         </div>
 
+
+
         <div className="toDoList">
           <div className="toDoListRow"></div>
         </div>
+
+
+
 
         <p className="new-task-title">Create New Task</p>
 
