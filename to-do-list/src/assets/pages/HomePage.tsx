@@ -1,9 +1,15 @@
 
 import "./HomePage.css"; 
+import { todoList as initialData } from "../../data/tasks";
+import { useState } from "react";
 
 export function HomePage() {
+
+  const[tasks, setTasks] = useState(initialData)
+
   return (
     <>
+      <title>Task List</title>
       <div className="background">
         <div className="overlay"></div>
       </div>
@@ -26,7 +32,22 @@ export function HomePage() {
 
 
         <div className="toDoList">
-          <div className="toDoListRow"></div>
+          {tasks.map((task) => (
+            <>
+            <div className = "toDoListRow">
+        <div className  = "tableElement">
+            <a href ="task-details.html?id=${task.id}">{task.name}</a>
+        </div>
+        <div className  = "tableElement">{task.date}</div>
+        <div className  = "tableElement">
+            <button className  = "delete-button" data-task-id={task.id}>Delete</button>
+        </div>
+        <div className  = "tableElement">
+            <button className = "edit-button" data-task-id={task.id}>Edit</button>
+        </div>
+        </div>
+        </>
+          ))}
         </div>
 
 
