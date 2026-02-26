@@ -11,6 +11,17 @@ export function HomePage() {
   const[taskDate, setTaskDate] = useState("")
   const[taskDetails, setTaskDetails] = useState("")
 
+  const handleDelete = (id: number) => {
+    const updatedTasks = tasks.filter((task) => {
+      if (task.id !== id) {
+        return true 
+      } else {
+        return false
+      }
+    })
+    setTasks(updatedTasks)
+  } 
+
   const handleAdd = () => {
     const newTask = {
       id: Date.now(),
@@ -57,10 +68,10 @@ export function HomePage() {
         </div>
         <div className  = "tableElement">{task.date}</div>
         <div className  = "tableElement">
-            <button className  = "delete-button" data-task-id={task.id}>Delete</button>
+            <button onClick={() => handleDelete(task.id)} className  = "delete-button" >Delete</button>
         </div>
         <div className  = "tableElement">
-            <button className = "edit-button" data-task-id={task.id}>Edit</button>
+            <button className = "edit-button">Edit</button>
         </div>
         </div>
         </>
