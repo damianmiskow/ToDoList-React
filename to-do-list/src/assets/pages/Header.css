@@ -1,0 +1,42 @@
+.header {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(127, 141, 146, 0.9);
+    justify-content: center;
+    
+}
+
+.page-title {
+    color: black;
+    font-weight: bold;
+    font-size: 50px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.right-section {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.js-home-page {
+    padding: 5px 20px;
+    font-size: 20px;
+    flex: none;
+    align-self: center;
+    width: auto;
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px;
+    color: black;
+    border-radius: 10px;
+    border: solid;
+}
+
+.js-home-page:hover {
+    background-color: rgb(146, 153, 165);
+}

@@ -1,3 +1,10 @@
+export interface Task {
+    id: number
+    name: string
+    date: string
+    details: string
+}
+
 export const todoList = [
     {
         name: 'task 123',

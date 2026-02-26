@@ -2,10 +2,24 @@
 import "./HomePage.css"; 
 import { todoList as initialData } from "../../data/tasks";
 import { useState } from "react";
+import { Header } from "./Header";
 
 export function HomePage() {
 
   const[tasks, setTasks] = useState(initialData)
+  const[taskName, setTaskName] = useState("")
+  const[taskDate, setTaskDate] = useState("")
+
+  const handleAdd = () => {
+    const newTask = {
+      id: Date.now(),
+      name: taskName,
+      date: taskDate,
+      details: ""
+    }
+
+    setTasks([...tasks, newTask])
+  }
 
   return (
     <>
@@ -14,12 +28,7 @@ export function HomePage() {
         <div className="overlay"></div>
       </div>
 
-      <div className="header">
-        <div className="page-title">Task List</div>
-        <div className="right-section">
-          <button className="js-home-page">Home Page</button>
-        </div>
-      </div>
+    <Header></Header>
 
       <div className="entireTable">
         <div className="titleRow">
@@ -34,7 +43,7 @@ export function HomePage() {
         <div className="toDoList">
           {tasks.map((task) => (
             <>
-            <div className = "toDoListRow">
+            <div className = "toDoListRow" key = {task.id}>
         <div className  = "tableElement">
             <a href ="task-details.html?id=${task.id}">{task.name}</a>
         </div>
@@ -50,37 +59,35 @@ export function HomePage() {
           ))}
         </div>
 
-
-
-
         <p className="new-task-title">Create New Task</p>
 
         <div className="inputRow">
           <input
-            className="js-name-input name-input"
+            className="name-input"
             type="text"
             placeholder="Enter name of Task:"
+            onChange={(event) => setTaskName(event.target.value)}
           />
           <input
-            className="js-date-input date-input"
+            className="date-input"
             type="date"
             placeholder="Enter date due:"
+            onChange={(event)=> setTaskDate(event.target.value)}
           />
-          <button className="js-taskAddButton add-button">Add</button>
-          <button className="js-saveButton save-button button-hide">
+          <button onClick = {handleAdd} className="add-button">Add</button>
+          <button className="save-button button-hide">
             Save
           </button>
         </div>
 
         <div className="task-details-row">
           <textarea
-            className="task-details-input js-task-details-input"
+            className="task-details-input"
             placeholder="Enter details for the task:"
           ></textarea>
 
           <div>
-            <button className="attach-files js-attach-files">Attach Files</button>
-            <input type="file" className="js-file-input" multiple hidden />
+            <button className="attach-files">Attach Files</button>
           </div>
         </div>
       </div>
