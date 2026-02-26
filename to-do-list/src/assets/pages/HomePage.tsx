@@ -10,6 +10,19 @@ export function HomePage() {
   const[taskName, setTaskName] = useState("")
   const[taskDate, setTaskDate] = useState("")
   const[taskDetails, setTaskDetails] = useState("")
+  const [editingId, setEditingId] = useState<number | null>(null)
+
+  const handleEdit = (id: number) => {
+    const taskToEdit = tasks.find((task) => {
+      return task.id === id
+    })
+    if (taskToEdit) {
+      setTaskName(taskToEdit.name)
+      setTaskDate(taskToEdit.date)
+      setTaskDetails(taskToEdit.details)
+      setEditingId(id)
+    }
+  }
 
   const handleDelete = (id: number) => {
     const updatedTasks = tasks.filter((task) => {
@@ -23,6 +36,23 @@ export function HomePage() {
   } 
 
   const handleAdd = () => {
+    if (editingId !== null) {
+      const updatedTasks = tasks.map((task)=> {
+        if (task.id === editingId) {
+          return {
+            id: editingId,
+            name: taskName,
+            date: taskDate,
+            details: taskDetails
+          }
+         } else {
+            return task
+          }
+        })
+        setTasks(updatedTasks)
+        setEditingId(null)
+    } else {
+
     const newTask = {
       id: Date.now(),
       name: taskName,
@@ -33,8 +63,8 @@ export function HomePage() {
     setTaskName("")
     setTaskDate("")
     setTaskDetails("")
-    console.log(tasks)
   }
+    }
 
     useEffect(() => {
     console.log(tasks);
@@ -71,7 +101,7 @@ export function HomePage() {
             <button onClick={() => handleDelete(task.id)} className  = "delete-button" >Delete</button>
         </div>
         <div className  = "tableElement">
-            <button className = "edit-button">Edit</button>
+            <button onClick= {() => handleEdit(task.id)} className = "edit-button">Edit</button>
         </div>
         </div>
         </>
@@ -95,7 +125,7 @@ export function HomePage() {
             placeholder="Enter date due:"
             onChange={(event)=> setTaskDate(event.target.value)}
           />
-          <button onClick = {handleAdd} className="add-button">Add</button>
+          <button onClick = {handleAdd} className="add-button">{editingId !== null? "Save": "Add"}</button>
           <button className="save-button button-hide">
             Save
           </button>
