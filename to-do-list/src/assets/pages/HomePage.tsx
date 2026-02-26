@@ -1,7 +1,7 @@
 
 import "./HomePage.css"; 
 import { todoList as initialData } from "../../data/tasks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "./Header";
 
 export function HomePage() {
@@ -9,17 +9,25 @@ export function HomePage() {
   const[tasks, setTasks] = useState(initialData)
   const[taskName, setTaskName] = useState("")
   const[taskDate, setTaskDate] = useState("")
+  const[taskDetails, setTaskDetails] = useState("")
 
   const handleAdd = () => {
     const newTask = {
       id: Date.now(),
       name: taskName,
       date: taskDate,
-      details: ""
+      details: taskDetails
     }
-
     setTasks([...tasks, newTask])
+    setTaskName("")
+    setTaskDate("")
+    setTaskDetails("")
+    console.log(tasks)
   }
+
+    useEffect(() => {
+    console.log(tasks);
+  }, [tasks])
 
   return (
     <>
@@ -65,12 +73,14 @@ export function HomePage() {
           <input
             className="name-input"
             type="text"
+            value={taskName}
             placeholder="Enter name of Task:"
             onChange={(event) => setTaskName(event.target.value)}
           />
           <input
             className="date-input"
             type="date"
+            value = {taskDate}
             placeholder="Enter date due:"
             onChange={(event)=> setTaskDate(event.target.value)}
           />
@@ -84,6 +94,8 @@ export function HomePage() {
           <textarea
             className="task-details-input"
             placeholder="Enter details for the task:"
+            value={taskDetails}
+            onChange = {(event) => {setTaskDetails(event.target.value)}}
           ></textarea>
 
           <div>
