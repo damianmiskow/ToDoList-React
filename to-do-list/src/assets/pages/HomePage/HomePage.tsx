@@ -1,8 +1,7 @@
-
 import "./HomePage.css"; 
-import { todoList as initialData } from "../../data/tasks";
+import { todoList as initialData } from "../../../data/tasks";
 import { useEffect, useState } from "react";
-import { Header } from "./Header";
+import { Header } from "../Header";
 
 export function HomePage() {
 
@@ -51,6 +50,9 @@ export function HomePage() {
         })
         setTasks(updatedTasks)
         setEditingId(null)
+        setTaskName("")
+        setTaskDate("")
+        setTaskDetails("")
     } else {
 
     const newTask = {
