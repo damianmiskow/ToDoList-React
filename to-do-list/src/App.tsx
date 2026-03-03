@@ -1,10 +1,20 @@
 import './App.css'
-import { HomePage } from './assets/pages/HomePage'
+import { Routes, Route } from "react-router"
+import { HomePage } from './assets/pages/HomePage/HomePage'
+import { DetailsPage } from './assets/pages/DetailsPage'
+import { todoList as initialData } from './data/tasks'
+import { useState } from 'react'
 
 function App() {
+  
+  const[tasks, setTasks] = useState(initialData);
 
   return (
-    <HomePage></HomePage>
+    <Routes>
+      <Route path = "/" element = {<HomePage tasks = {tasks} setTasks = {setTasks} />} ></Route>
+      <Route path = "/task/:id" element = {<DetailsPage tasks = {tasks}/>}></Route>
+
+    </Routes>
   )
 }
 
