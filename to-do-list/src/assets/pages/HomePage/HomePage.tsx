@@ -1,11 +1,11 @@
 import "./HomePage.css"; 
-import { todoList as initialData } from "../../../data/tasks";
 import { useEffect, useState } from "react";
 import { Header } from "../Header";
+import { Link } from "react-router";
 
-export function HomePage() {
+export function HomePage({tasks, setTasks}: {tasks: any[]; setTasks: any}) {
 
-  const[tasks, setTasks] = useState(initialData)
+
   const[taskName, setTaskName] = useState("")
   const[taskDate, setTaskDate] = useState("")
   const[taskDetails, setTaskDetails] = useState("")
@@ -96,7 +96,7 @@ export function HomePage() {
             <>
             <div className = "toDoListRow" key = {task.id}>
         <div className  = "tableElement">
-            <a href ="task-details.html?id=${task.id}">{task.name}</a>
+            <Link to={`/task/${task.id}`}>{task.name}</Link>
         </div>
         <div className  = "tableElement">{task.date}</div>
         <div className  = "tableElement">
