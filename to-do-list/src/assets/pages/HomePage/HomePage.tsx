@@ -74,12 +74,13 @@ export function HomePage({tasks, setTasks}: {tasks: any[]; setTasks: any}) {
 
   return (
     <>
+    <Header></Header>
       <title>Task List</title>
       <div className="background">
         <div className="overlay"></div>
       </div>
 
-    <Header></Header>
+  
 
       <div className="entireTable">
         <div className="titleRow">
@@ -110,39 +111,40 @@ export function HomePage({tasks, setTasks}: {tasks: any[]; setTasks: any}) {
           ))}
         </div>
 
-        <p className="new-task-title">Create New Task</p>
+        <div className="creating-new-task">
+          <p className="new-task-title">Create New Task</p>
+          <div className="inputRow">
+            <input
+              className="name-input"
+              type="text"
+              value={taskName}
+              placeholder="Enter name of Task:"
+              onChange={(event) => setTaskName(event.target.value)}
+            />
+            <input
+              className="date-input"
+              type="date"
+              value = {taskDate}
+              placeholder="Enter date due:"
+              onChange={(event)=> setTaskDate(event.target.value)}
+            />
+            <button onClick = {handleAdd} className="add-button">{editingId !== null? "Save": "Add"}</button>
+            <button className="save-button button-hide">
+              Save
+            </button>
+          </div>
 
-        <div className="inputRow">
-          <input
-            className="name-input"
-            type="text"
-            value={taskName}
-            placeholder="Enter name of Task:"
-            onChange={(event) => setTaskName(event.target.value)}
-          />
-          <input
-            className="date-input"
-            type="date"
-            value = {taskDate}
-            placeholder="Enter date due:"
-            onChange={(event)=> setTaskDate(event.target.value)}
-          />
-          <button onClick = {handleAdd} className="add-button">{editingId !== null? "Save": "Add"}</button>
-          <button className="save-button button-hide">
-            Save
-          </button>
-        </div>
+          <div className="task-details-row">
+            <textarea
+              className="task-details-input"
+              placeholder="Enter details for the task:"
+              value={taskDetails}
+              onChange = {(event) => {setTaskDetails(event.target.value)}}
+            ></textarea>
 
-        <div className="task-details-row">
-          <textarea
-            className="task-details-input"
-            placeholder="Enter details for the task:"
-            value={taskDetails}
-            onChange = {(event) => {setTaskDetails(event.target.value)}}
-          ></textarea>
-
-          <div>
-            <button className="attach-files">Attach Files</button>
+            <div>
+              <button className="attach-files">Attach Files</button>
+            </div>
           </div>
         </div>
       </div>
