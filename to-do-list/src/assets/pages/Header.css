@@ -35,8 +35,28 @@
     color: black;
     border-radius: 10px;
     border: solid;
+    text-decoration: none;
+    
 }
 
 .js-home-page:hover {
+    background-color: rgb(146, 153, 165);
+}
+
+.logout-button {
+    background-color: red;
+    margin-left: 20px;
+    color: black;
+    background-color: transparent;
+    border: 1px;
+    color: black;
+    border: solid;
+    padding-bottom: 28px;
+    padding-top: 7px;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+.logout-button:hover {
     background-color: rgb(146, 153, 165);
 }

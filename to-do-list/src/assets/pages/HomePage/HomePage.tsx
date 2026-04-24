@@ -2,12 +2,47 @@ import "./HomePage.css";
 import { useEffect, useState } from "react";
 import { Header } from "../Header";
 import { Link } from "react-router";
+import axios from "axios";
 
 export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
   const [taskName, setTaskName] = useState("");
   const [taskDate, setTaskDate] = useState("");
   const [taskDetails, setTaskDetails] = useState("");
+  const [addTaskResult, setAddTaskResult] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
+
+  async function handleAdd() {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/add-task`,
+        { task_name: taskName, task_date: taskDate, task_details: taskDetails },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      setAddTaskResult("Task Added!");
+      setTaskName("");
+      setTaskDate("");
+      setTaskDetails("");
+      setTimeout(() => {
+        setAddTaskResult("");
+      }, 5000);
+    } catch {
+      setAddTaskResult("API ERROR!");
+    }
+  }
+  /* need to implement displaying the data
+  async function handleDelete(id: string) {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`${import.meta.env.VITE_API_URL}/delete-task`, {
+        headers: { Authorization: `Bearer ${token}` },
+        data: { task_id: "id" },
+      });
+    } catch {
+      console.log("ERROR");
+    }
+  }
+    */
 
   const handleEdit = (id: number) => {
     const taskToEdit = tasks.find((task) => {
@@ -30,39 +65,6 @@ export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
       }
     });
     setTasks(updatedTasks);
-  };
-
-  const handleAdd = () => {
-    if (editingId !== null) {
-      const updatedTasks = tasks.map((task) => {
-        if (task.id === editingId) {
-          return {
-            id: editingId,
-            name: taskName,
-            date: taskDate,
-            details: taskDetails,
-          };
-        } else {
-          return task;
-        }
-      });
-      setTasks(updatedTasks);
-      setEditingId(null);
-      setTaskName("");
-      setTaskDate("");
-      setTaskDetails("");
-    } else {
-      const newTask = {
-        id: Date.now(),
-        name: taskName,
-        date: taskDate,
-        details: taskDetails,
-      };
-      setTasks([...tasks, newTask]);
-      setTaskName("");
-      setTaskDate("");
-      setTaskDetails("");
-    }
   };
 
   useEffect(() => {
@@ -152,6 +154,7 @@ export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
                 <button className="attach-files">Attach Files</button>
               </div>
             </div>
+            <div className="add-task-result">{addTaskResult}</div>
           </div>
         </div>
       </div>

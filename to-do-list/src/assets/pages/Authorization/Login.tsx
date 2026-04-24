@@ -1,24 +1,36 @@
 import { useState } from "react";
 import "./Login.css";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 export function Login() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   async function handleLogin() {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/login`, {
-        username: username,
-        password: password,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/login`,
+        {
+          username: username,
+          password: password,
+        },
+      );
 
-      setErrorMessage("");
-      setUsername("");
-      setPassword("");
+      const parsedBody = JSON.parse(response.data.body);
+      if (parsedBody.token) {
+        localStorage.setItem("token", parsedBody.token);
+        setErrorMessage("");
+        setUsername("");
+        setPassword("");
+        navigate("/home");
+      } else {
+        setErrorMessage("Invalid Credentials!");
+      }
     } catch (error) {
       console.log(error);
-      setErrorMessage("Error!");
+      setErrorMessage("Invalid Credentials!!");
     }
   }
   return (
