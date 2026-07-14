@@ -9,8 +9,9 @@ export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
   const [taskDate, setTaskDate] = useState("");
   const [taskDetails, setTaskDetails] = useState("");
   const [addTaskResult, setAddTaskResult] = useState("");
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
+  /* handling adding tasks */
   async function handleAdd() {
     try {
       const token = localStorage.getItem("token");
@@ -19,6 +20,7 @@ export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
         { task_name: taskName, task_date: taskDate, task_details: taskDetails },
         { headers: { Authorization: `Bearer ${token}` } },
       );
+      await fetchTasks();
       setAddTaskResult("Task Added!");
       setTaskName("");
       setTaskDate("");
@@ -30,6 +32,32 @@ export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
       setAddTaskResult("API ERROR!");
     }
   }
+
+  /* handing displaying tasks */
+
+  async function fetchTasks() {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/get-tasks`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const apiTasks = response.data.map((task: any) => ({
+        id: task["task-id"],
+        name: task["task-name"],
+        date: task["task-date"],
+        details: task["task-details"],
+      }));
+      setTasks(apiTasks);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   /* need to implement displaying the data
   async function handleDelete(id: string) {
     try {
@@ -44,7 +72,7 @@ export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
   }
     */
 
-  const handleEdit = (id: number) => {
+  const handleEdit = (id: string) => {
     const taskToEdit = tasks.find((task) => {
       return task.id === id;
     });
@@ -56,7 +84,7 @@ export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
     }
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     const updatedTasks = tasks.filter((task) => {
       if (task.id !== id) {
         return true;
@@ -68,8 +96,8 @@ export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
   };
 
   useEffect(() => {
-    console.log(tasks);
-  }, [tasks]);
+    fetchTasks();
+  }, []);
 
   return (
     <>
