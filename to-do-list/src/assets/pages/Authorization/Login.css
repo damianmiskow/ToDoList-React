@@ -104,3 +104,8 @@
     font-size: 20px;
     font-weight: bold;
 }
+
+.create-account-button {
+    color: bold;
+    margin-top: 20px;
+}

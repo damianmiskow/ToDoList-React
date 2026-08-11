@@ -8,7 +8,7 @@ export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
   const [taskName, setTaskName] = useState("");
   const [taskDate, setTaskDate] = useState("");
   const [taskDetails, setTaskDetails] = useState("");
-  const [addTaskResult, setAddTaskResult] = useState("");
+  const [notification, setNotification] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
 
   /* handling adding tasks */
@@ -21,15 +21,15 @@ export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
         { headers: { Authorization: `Bearer ${token}` } },
       );
       await fetchTasks();
-      setAddTaskResult("Task Added!");
+      setNotification("Task Added!");
       setTaskName("");
       setTaskDate("");
       setTaskDetails("");
       setTimeout(() => {
-        setAddTaskResult("");
+        setNotification("");
       }, 5000);
     } catch {
-      setAddTaskResult("API ERROR!");
+      setNotification("API ERROR!");
     }
   }
 
@@ -58,19 +58,36 @@ export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
     }
   }
 
-  /* need to implement displaying the data
   async function handleDelete(id: string) {
+    setTasks((currentTasks: any[]) =>
+      currentTasks.filter((task) => task.id !== id),
+    );
     try {
-      const token = localStorage.getItem("token");
-      await axios.delete(`${import.meta.env.VITE_API_URL}/delete-task`, {
-        headers: { Authorization: `Bearer ${token}` },
-        data: { task_id: "id" },
-      });
+      const token = localStorage.getItem("token") || "";
+
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/delete-task`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+
+            "Content-Type": "application/json",
+          },
+
+          data: JSON.stringify({ task_id: id }),
+        },
+      );
+
+      setNotification("Task Deleted!");
+      await fetchTasks();
+      setTimeout(() => {
+        setNotification("");
+      }, 5000);
     } catch {
       console.log("ERROR");
     }
   }
-    */
 
   const handleEdit = (id: string) => {
     const taskToEdit = tasks.find((task) => {
@@ -83,7 +100,7 @@ export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
       setEditingId(id);
     }
   };
-
+  /* old delete function
   const handleDelete = (id: string) => {
     const updatedTasks = tasks.filter((task) => {
       if (task.id !== id) {
@@ -94,7 +111,7 @@ export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
     });
     setTasks(updatedTasks);
   };
-
+*/
   useEffect(() => {
     fetchTasks();
   }, []);
@@ -182,7 +199,7 @@ export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
                 <button className="attach-files">Attach Files</button>
               </div>
             </div>
-            <div className="add-task-result">{addTaskResult}</div>
+            <div className="notification">{notification}</div>
           </div>
         </div>
       </div>

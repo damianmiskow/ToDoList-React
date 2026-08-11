@@ -58,12 +58,16 @@ export function Login() {
           <button className="login-button" onClick={handleLogin}>
             Login
           </button>
+          <button className="create-account-button">Create an Account!</button>
           <div>
             {errorMessage && (
               <div className="error-message">{errorMessage}</div>
             )}
           </div>
-          <div className="create-button-container"></div>
+          <div
+            className="create-button-container"
+            onClick={() => navigate("/register")}
+          ></div>
         </div>
       </div>
     </>
