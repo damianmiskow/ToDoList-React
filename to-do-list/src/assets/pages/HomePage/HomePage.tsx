@@ -100,18 +100,6 @@ export function HomePage({ tasks, setTasks }: { tasks: any[]; setTasks: any }) {
       setEditingId(id);
     }
   };
-  /* old delete function
-  const handleDelete = (id: string) => {
-    const updatedTasks = tasks.filter((task) => {
-      if (task.id !== id) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-    setTasks(updatedTasks);
-  };
-*/
   useEffect(() => {
     fetchTasks();
   }, []);

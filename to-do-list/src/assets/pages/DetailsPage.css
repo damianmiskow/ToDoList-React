@@ -1,3 +1,7 @@
+.body {
+    margin-top: 80px;
+}
+
 .overlay {
     z-index: -1;
     background-color: rgba(127, 141, 146, 0.85);
